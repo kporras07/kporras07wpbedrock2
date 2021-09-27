@@ -1,0 +1,55 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+        - FailAid\Context\FailureContext:
+          - output:
+            screenshot: false
+            status: false
+            debugBarSelectors: false
+    api:
+      contexts:
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+        - FailAid\Context\FailureContext:
+          - output:
+            api: true
+    generic-php55:
+      contexts:
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+        - FailAid\Context\FailureContext
+  extensions:
+    FailAid\Extension:
+      output:
+        api: false
+        tags: false
+      screenshot:
+        directory: ./features/failures
+        mode: default
+        autoClean: false
+        size: 1444x1280
+        # hostDirectory: /home/abdul/Projects/personal/behat-fail-aid/features/failures
+        hostUrl: http://ci/failures/$USER/
+      debugBarSelectors:
+        message: '#debugBar .message'
+        queries: '#debugBar .queries'
+      siteFilters:
+        '/images/': 'http://dev.environment/images/'
+        '/js/': 'http://dev.environment/js/'
+      trackJs:
+        errors: true
+        warns: true
+        logs: true
+        trim: 1000
+    Cjm\Behat\LocalWebserverExtension:
+      docroot: '%paths.base%/app'
+      port: 8531
+    Behat\MinkExtension:
+      default_session: goutte
+      base_url:  'http://localhost:8531/'
+      sessions:
+        goutte:
+          goutte: ~
